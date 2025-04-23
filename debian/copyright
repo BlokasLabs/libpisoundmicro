@@ -1,0 +1,78 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: libpisoundmicro
+Upstream-Contact: Giedrius Trainavičius <hello@blokas.io>
+Source: https://blokas.io/pisound-micro/
+#
+# Please double check copyright with the licensecheck(1) command.
+
+Files:     Makefile
+           activity.cpp
+           analog_input.cpp
+           element.cpp
+           encoder.cpp
+           gpio.cpp
+           include/pisound-micro.h
+           include/pisound-micro/activity.h
+           include/pisound-micro/analog_input.h
+           include/pisound-micro/api.h
+           include/pisound-micro/api_cpp.h
+           include/pisound-micro/api_internal.h
+           include/pisound-micro/element.h
+           include/pisound-micro/encoder.h
+           include/pisound-micro/gpio.h
+           include/pisound-micro/lib_initializer.h
+           include/pisound-micro/name.h
+           include/pisound-micro/types.h
+           include/pisound-micro/value_fd.h
+           lib_initializer.cpp
+           libpisoundmicro_test.cpp
+           name.cpp
+           pisound-micro.c
+           utils.c
+           utils.h
+           value_fd.cpp
+Copyright: 2017-2025 Vilniaus Blokas UAB, https://blokas.io/
+License:   LGPL-2.1
+ This file is part of libpisoundmicro.
+ .
+ libpisoundmicro is free software: you can redistribute it and/or modify it under the terms of the
+ GNU Lesser General Public License as published by the Free Software Foundation, version 2.1 of the License.
+ .
+ libpisoundmicro is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+ for more details.
+ .
+ You should have received a copy of the GNU Lesser General Public License along with libpisoundmicro. If not, see <https://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the complete text of the GNU Lesser General Public License
+ Version 2.1 can be found in `/usr/share/common-licenses/LGPL-2.1'.
+
+Files:     Doxyfile
+           build-deb.sh
+           debian/README.Debian
+           debian/control
+           debian/libpisoundmicro-dev.install
+           debian/libpisoundmicro-dev.links
+           debian/libpisoundmicro-doc.docs
+           debian/libpisoundmicro.install
+           debian/libpisoundmicro.pc
+           debian/not-installed
+           debian/rules
+           debian/watch
+           lc.txt
+           python-api-doc.c
+Copyright: __NO_COPYRIGHT_NOR_LICENSE__
+License:   __NO_COPYRIGHT_NOR_LICENSE__
+
+Files:     debian/libpisoundmicro-doc.doc-base
+Copyright: __NO_COPYRIGHT__ in: debian/libpisoundmicro-doc.doc-base
+License:   __UNKNOWN__
+ Format: HTML
+ Index: /usr/share/doc/libpisoundmicro-dev/html/index.html
+ Files: /usr/share/doc/libpisoundmicro-dev/html/*
+
+#----------------------------------------------------------------------------
+# xml and html files (skipped):
+#         DoxygenLayout.xml
+
+

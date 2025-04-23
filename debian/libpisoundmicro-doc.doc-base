@@ -1,0 +1,9 @@
+Document: libpisoundmicro-dev
+Title: libpisoundmicro reference docs
+Author: Giedrius Trainavičius <giedrius@blokas.io>
+Abstract: The complete reference, generated from comments by Doxygen.
+Section: Programming
+
+Format: HTML
+Index: /usr/share/doc/libpisoundmicro-dev/html/index.html
+Files: /usr/share/doc/libpisoundmicro-dev/html/*

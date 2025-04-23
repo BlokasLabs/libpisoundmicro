@@ -1,0 +1,36 @@
+Source: libpisoundmicro
+Section: libs
+Priority: optional
+Maintainer: Giedrius Trainavičius <giedrius@blokas.io>
+Build-Depends: debhelper-compat (= 13), doxygen
+Standards-Version: 4.5.0
+Homepage: https://blokas.io/
+
+Package: libpisoundmicro
+Section: libs
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: pisound-micro-common (>= 1.0.0-1), ${misc:Depends}, ${shlibs:Depends}
+Description: A utility library for Pisound Micro I/O expander capabilities.
+
+Package: libpisoundmicro-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends: libpisoundmicro (= ${binary:Version}), ${misc:Depends}
+Description: Development files for libpisoundmicro
+
+Package: libpisoundmicro-doc
+Architecture: all
+Multi-Arch: foreign
+Section: doc
+Depends: ${misc:Depends}
+Suggests: libpisoundmicro-dev
+Description: Documentation for libpisoundmicro
+
+Package: pypisoundmicro
+Architecture: any
+Section: python
+Depends: libpisoundmicro (= ${binary:Version}), ${python3:Depends}, ${misc:Depends}, ${shlibs:Depends}
+Description: Python bindings for libpisoundmicro

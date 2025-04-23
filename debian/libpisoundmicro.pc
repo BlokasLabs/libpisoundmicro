@@ -1,0 +1,7 @@
+includedir=/usr/include
+
+Name: libpisoundmicro
+Description: A utility library for Pisound Micro I/O expander capabilities.
+Version: 1.0.0
+Cflags:
+Libs: -lpisoundmicro

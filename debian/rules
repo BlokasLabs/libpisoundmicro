@@ -1,0 +1,26 @@
+#!/usr/bin/make -f
+# You must remove unused comment lines for the released package.
+#export DH_VERBOSE = 1
+#export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+#export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
+#export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	dpkg-parsechangelog --show-field Version | sed 's/-.*//' > pypisoundmicro/VERSION
+
+override_dh_auto_build:
+	dh_auto_build
+	make all docs
+
+override_dh_auto_install:
+	dh_auto_install -- PREFIX=/usr
+	cd pypisoundmicro && python3 setup.py install --root=$(CURDIR)/debian/pypisoundmicro --prefix=/usr --install-layout=deb
+	dh_python3
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rf pypisoundmicro/build pypisoundmicro/dist pypisoundmicro/*.egg-info
+	rm -f pypisoundmicro/VERSION pypisoundmicro/pisoundmicro_wrap.cpp pypisoundmicro/pypisoundmicro.py

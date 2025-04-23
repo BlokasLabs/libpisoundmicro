@@ -1,0 +1,32 @@
+*~$*
+
+test
+docs
+
+Makefile.local
+
+**/__pycache__
+**/Debug
+**/Release
+**/.vs
+**/GeneratedFiles
+**/.DS_Store
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+*.bin
+
+# Compiled Dynamic libraries
+*.so
+*.so.*
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
