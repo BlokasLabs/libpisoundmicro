@@ -805,6 +805,103 @@ UPISND_DEFINE_INTERNAL_SETUP_FIELD(11, 2, upisnd_activity_e,      activity_type)
 
 #undef UPISND_DEFINE_INTERNAL_SETUP_FIELD
 
+#define UPISND_DO_WITH_ERR_CHECK(x) if ((err = (x)) < 0) { return err; }
+
+int upisnd_setup_for_encoder(upisnd_setup_t *setup, upisnd_pin_t pin_a, upisnd_pin_pull_e pull_a, upisnd_pin_t pin_b, upisnd_pin_pull_e pull_b)
+{
+	if (!setup)
+	{
+		errno = EINVAL;
+		return -EINVAL;
+	}
+
+	int err;
+	*setup = 0;
+
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_element_type(setup, UPISND_ELEMENT_TYPE_ENCODER));
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_pin_id(setup, pin_a));
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_gpio_pull(setup, pull_a));
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_encoder_pin_b_id(setup, pin_b));
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_encoder_pin_b_pull(setup, pull_b));
+
+	return 0;
+}
+
+int upisnd_setup_for_analog_input(upisnd_setup_t *setup, upisnd_pin_t pin)
+{
+	if (!setup)
+	{
+		errno = EINVAL;
+		return -EINVAL;
+	}
+
+	int err;
+	*setup = 0;
+
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_element_type(setup, UPISND_ELEMENT_TYPE_ANALOG_INPUT));
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_pin_id(setup, pin));
+
+	return 0;
+}
+
+int upisnd_setup_for_gpio_input(upisnd_setup_t *setup, upisnd_pin_t pin, upisnd_pin_pull_e pull)
+{
+	if (!setup)
+	{
+		errno = EINVAL;
+		return -EINVAL;
+	}
+
+	int err;
+	*setup = 0;
+
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_element_type(setup, UPISND_ELEMENT_TYPE_GPIO));
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_pin_id(setup, pin));
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_gpio_dir(setup, UPISND_PIN_DIR_INPUT));
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_gpio_pull(setup, pull));
+
+	return 0;
+}
+
+int upisnd_setup_for_gpio_output(upisnd_setup_t *setup, upisnd_pin_t pin, bool high)
+{
+	if (!setup)
+	{
+		errno = EINVAL;
+		return -EINVAL;
+	}
+
+	int err;
+	*setup = 0;
+
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_element_type(setup, UPISND_ELEMENT_TYPE_GPIO));
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_pin_id(setup, pin));
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_gpio_dir(setup, UPISND_PIN_DIR_OUTPUT));
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_gpio_output(setup, high));
+
+	return 0;
+}
+
+int upisnd_setup_for_activity(upisnd_setup_t *setup, upisnd_pin_t pin, upisnd_activity_e activity)
+{
+	if (!setup)
+	{
+		errno = EINVAL;
+		return -EINVAL;
+	}
+
+	int err;
+	*setup = 0;
+
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_element_type(setup, UPISND_ELEMENT_TYPE_ACTIVITY));
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_pin_id(setup, pin));
+	UPISND_DO_WITH_ERR_CHECK(upisnd_setup_set_activity_type(setup, activity));
+
+	return 0;
+}
+
+#undef UPISND_DO_WITH_ERR_CHECK
+
 upisnd_element_type_e upisnd_setup_get_element_type(upisnd_setup_t setup)
 {
 	return upisnd_internal_setup_get_element_type(setup);
