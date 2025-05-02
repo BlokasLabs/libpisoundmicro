@@ -9,7 +9,7 @@ import glob
 
 # Find the library path
 lib_paths = []
-for search_path in ['../debian/tmp/usr/lib', '../debian/libpisoundmicro/usr/lib']:
+for search_path in ['../debian/tmp/usr/lib', '../debian/libpisoundmicro/usr/lib', '../']:
 	for lib_glob in glob.glob(f"{search_path}/**/libpisoundmicro.*", recursive=True):
 		lib_dir = os.path.dirname(lib_glob)
 		if lib_dir not in lib_paths:
@@ -29,8 +29,12 @@ pisoundmicro_module = Extension(
 	libraries = [ 'pisoundmicro' ]
 )
 
-with open("VERSION") as f:
-	VERSION = f.read().strip()
+VERSION = '1.0.0-dev'
+try:
+	with open("VERSION") as f:
+		VERSION = f.read().strip()
+except:
+	pass
 
 setup(
 	name='pisoundmicro',
