@@ -191,6 +191,17 @@ UPISND_API const char *upisnd_value_mode_to_str(upisnd_value_mode_e mode);
 /// Parses the provided string and returns the corresponding value mode.
 UPISND_API upisnd_value_mode_e upisnd_str_to_value_mode(const char *str);
 
+/// Initialize upisnd_setup_t with options for Encoder.
+UPISND_API int upisnd_setup_for_encoder(upisnd_setup_t *setup, upisnd_pin_t pin_a, upisnd_pin_pull_e pull_a, upisnd_pin_t pin_b, upisnd_pin_pull_e pull_b);
+/// Initialize upisnd_setup_t with options for Analog Input.
+UPISND_API int upisnd_setup_for_analog_input(upisnd_setup_t *setup, upisnd_pin_t pin);
+/// Initialize upisnd_setup_t with options for GPIO Input.
+UPISND_API int upisnd_setup_for_gpio_input(upisnd_setup_t *setup, upisnd_pin_t pin, upisnd_pin_pull_e pull);
+/// Initialize upisnd_setup_t with options for GPIO Output.
+UPISND_API int upisnd_setup_for_gpio_output(upisnd_setup_t *setup, upisnd_pin_t pin, bool high);
+/// Initialize upisnd_setup_t with options for Activity Element.
+UPISND_API int upisnd_setup_for_activity(upisnd_setup_t *setup, upisnd_pin_t pin, upisnd_activity_e activity);
+
 /// Extracts the Element type from the setup container.
 UPISND_API upisnd_element_type_e  upisnd_setup_get_element_type      (upisnd_setup_t setup);
 /// Extracts the main pin from the setup container.
