@@ -80,8 +80,76 @@ class DocstringInjector(ast.NodeTransformer):
 			return f"{self._extract_attribute_path(node.value)}.{node.attr}"
 		return ""
 
-def preprocess_api_facade(self):
-	print("Preprocessing _api_facade.py using AST to inject docstrings...")
+def preprocess_single_file(file_path, dest_file, psm_module):
+	"""
+	Preprocess a single Python file by injecting docstrings from SWIG module.
+	
+	Args:
+		file_path: Path to the source Python file
+		dest_file: Path where the processed file will be written
+		psm_module: The imported SWIG module with docstrings
+		
+	Returns:
+		int: Number of docstrings processed
+	"""
+	# Read the source file
+	with open(file_path, 'r') as f:
+		source = f.read()
+	
+	# Parse the source into an AST
+	tree = ast.parse(source)
+	
+	# Apply the docstring injector
+	transformer = DocstringInjector(psm_module)
+	modified_tree = transformer.visit(tree)
+	ast.fix_missing_locations(modified_tree)
+	
+	# Convert modified AST back to source
+	modified_source = ast.unparse(modified_tree)
+
+	# If copy_doc was used in this file, remove the decorator definition
+	if transformer.modified:
+		# This pattern removes the copy_doc decorator function definition
+		import re
+		modified_source = re.sub(
+			r"def copy_doc\(from_func\):\n\s+def decorator\(to_func\):.+?return decorator\n\n",
+			"",
+			modified_source,
+			flags=re.DOTALL
+		)
+
+	# Create destination directory if needed
+	os.makedirs(os.path.dirname(dest_file), exist_ok=True)
+		
+	# Write the modified source to destination
+	with open(dest_file, 'w') as f:
+		f.write(modified_source)
+
+	return transformer.processed_count
+
+def find_and_preprocess_files(self):
+	"""
+	Find all Python files in pypisoundmicro/ (excluding swig/) and preprocess them.
+	
+	Returns:
+		tuple: (number of files processed, total number of docstrings injected)
+	"""
+	print("Finding and preprocessing Python files in pypisoundmicro/...")
+	
+	# Find all Python files in pypisoundmicro/ but not in pypisoundmicro/swig/
+	source_dir = 'pypisoundmicro'
+	py_files = []
+	for root, dirs, files in os.walk(source_dir):
+		if 'swig' in root.split(os.path.sep):
+			continue  # Skip swig subdirectory
+		for file in files:
+			if file.endswith('.py') and not file.startswith('__'):
+				py_files.append(os.path.join(root, file))
+	
+	return py_files
+
+def preprocess_python_files(self):
+	print("Preprocessing Python files in pypisoundmicro/ to inject docstrings...")
 	try:
 		# Find the built SWIG module
 		build_dirs = glob.glob(os.path.join(self.build_lib, 'pypisoundmicro', 'swig', '_pypisoundmicro*.so'))
@@ -93,53 +161,43 @@ def preprocess_api_facade(self):
 		sys.path.insert(0, self.build_lib)
 		from pypisoundmicro.swig import pypisoundmicro as psm
 
-		# Source and destination files
-		src_file = os.path.join('pypisoundmicro', '_api_facade.py')
-		dest_file = os.path.join(self.build_lib, 'pypisoundmicro', '_api_facade.py')
+		# Find Python files to process
+		py_files = find_and_preprocess_files(self)
 		
-		# Read the source file
-		with open(src_file, 'r') as f:
-			source = f.read()
+		processed_total = 0
 		
-		# Parse the source into an AST
-		tree = ast.parse(source)
-		
-		# Apply our docstring injector
-		transformer = DocstringInjector(psm)
-		modified_tree = transformer.visit(tree)
-		ast.fix_missing_locations(modified_tree)
-		
-		# Convert modified AST back to source
-		modified_source = ast.unparse(modified_tree)
+		# Process each file
+		for py_file in py_files:
+			# Define the destination file path
+			rel_path = os.path.relpath(py_file, start='.')
+			dest_file = os.path.join(self.build_lib, rel_path)
+			
+			 # Process the file
+			processed_count = preprocess_single_file(py_file, dest_file, psm)
+			
+			processed_total += processed_count
+			if processed_count > 0:
+				print(f"Injected {processed_count} docstrings into {rel_path}")
 
-		# If no copy_doc functionality is needed anymore, remove the decorator definition
-		if transformer.modified:
-			# This pattern removes the copy_doc decorator function definition
-			import re
-			modified_source = re.sub(
-				r"def copy_doc\(from_func\):\n\s+def decorator\(to_func\):.+?return decorator\n\n",
-				"",
-				modified_source,
-				flags=re.DOTALL
-			)
-
-		# Write the modified source to destination
-		with open(dest_file, 'w') as f:
-			f.write(modified_source)
-
-		print(f"Successfully injected {transformer.processed_count} docstrings into {dest_file}")
+		print(f"Successfully processed {len(py_files)} files with {processed_total} total docstrings injected")
 
 	except Exception as e:
-		print(f"Error preprocessing _api_facade.py with AST: {e}")
-		# Ensure the original file is still copied if processing fails
-		os.makedirs(os.path.dirname(dest_file), exist_ok=True)
-		shutil.copy2(src_file, dest_file)
+		print(f"Error preprocessing Python files with AST: {e}")
+		import traceback
+		traceback.print_exc()
+		# Ensure all files are still copied even if processing fails
+		for py_file in glob.glob(os.path.join('pypisoundmicro', '**', '*.py'), recursive=True):
+			if 'swig' not in py_file.split(os.path.sep):
+				rel_path = os.path.relpath(py_file, start='.')
+				dest_file = os.path.join(self.build_lib, rel_path)
+				os.makedirs(os.path.dirname(dest_file), exist_ok=True)
+				shutil.copy2(py_file, dest_file)
 
-# Custom build_py command to preprocess _api_facade.py
+# Custom build_py command to preprocess Python files
 class CustomBuildPy(build_py):
 	def run(self):
 		super().run()
-		preprocess_api_facade(self)
+		preprocess_python_files(self)
 
 pisoundmicro_module = Extension(
 	'pypisoundmicro.swig._pypisoundmicro',

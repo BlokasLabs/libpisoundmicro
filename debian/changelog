@@ -1,3 +1,10 @@
+libpisoundmicro (1.0.1-1) UNRELEASED; urgency=low
+
+  * upisnd_setup_t initialization helpers for C API.
+  * Added a layer to Python wrapper to make it comply with Python standards better.
+
+ -- Giedrius Trainavičius <giedrius@blokas.io>  Mon, 12 May 2025 11:39:21 +0300
+
 libpisoundmicro (1.0.0-1) UNRELEASED; urgency=low
 
   * Initial release.

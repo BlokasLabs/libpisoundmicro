@@ -15,7 +15,9 @@ class Element:
 		Args:
 			native_obj: The native SWIG-wrapped Element object
 		"""
-		# Store the direct reference to preserve the object type
+		# Increments the reference counter of the native context.
+		# This is necessary to ensure smooth cleanup on exit.
+		psm.upisnd_init()
 		self._native_obj = native_obj if native_obj is not None else psm.Element()
 
 	@property
@@ -30,6 +32,8 @@ class Element:
 		if self._native_obj:
 			self._native_obj.release()
 			self._native_obj = None
+			# Decrement the reference counter of the native context.
+			psm.upisnd_uninit()
 
 	@property
 	@copy_doc(psm.Element.getName)
