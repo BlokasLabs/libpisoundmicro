@@ -2,6 +2,11 @@
 
 test
 docs
+pypisoundmicro/build
+pypisoundmicro/pisoundmicro.egg-info
+pypisoundmicro/pisoundmicro_wrap.cpp
+pypisoundmicro/pypisoundmicro.egg-info
+pypisoundmicro/pypisoundmicro/swig/pypisoundmicro.py
 
 Makefile.local
 
