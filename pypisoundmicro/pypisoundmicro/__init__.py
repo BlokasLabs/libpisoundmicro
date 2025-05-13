@@ -47,22 +47,23 @@ def cleanup() -> None:
 		This function is thread-safe and can be called from any thread.
 	
 	Example:
+		```py3
 		# For handling abnormal termination with signals:
 		
 		import signal
-		import sys
 		import pypisoundmicro as psm
 		
 		def signal_handler(signum, frame):
-			# Clean up pisound resources first
-			psm.cleanup()
-			
-			# Then exit or perform other cleanup
-			sys.exit(1)
+		    # Clean up pisound resources first
+		    psm.cleanup()
+		    
+		    # Then exit or perform other cleanup
+		    exit(1)
 		
 		# Register signal handlers for common termination signals
 		signal.signal(signal.SIGINT, signal_handler)   # Ctrl+C
 		signal.signal(signal.SIGTERM, signal_handler)  # Termination signal
+		```
 	"""
 	_cleanup()
 

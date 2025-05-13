@@ -38,7 +38,7 @@ public:
 
 	/// @brief Set up an activity element.
 	/// @see upisnd_setup_activity
-	static Activity setupActivity(ElementName name, upisnd_pin_t pin, upisnd_activity_e activity);
+	static Activity setup(ElementName name, upisnd_pin_t pin, upisnd_activity_e activity);
 
 	/// @brief Get the activity of the element.
 	upisnd_activity_e getActivity() const;

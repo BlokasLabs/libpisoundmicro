@@ -19,7 +19,7 @@
 namespace upisnd
 {
 
-Activity Activity::setupActivity(ElementName name, upisnd_pin_t pin, upisnd_activity_e activity)
+Activity Activity::setup(ElementName name, upisnd_pin_t pin, upisnd_activity_e activity)
 {
 	return Activity(upisnd_setup_activity(name, pin, activity));
 }

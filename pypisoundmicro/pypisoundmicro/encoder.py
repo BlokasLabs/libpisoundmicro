@@ -2,7 +2,7 @@ from ._utils import copy_doc
 from .swig import pypisoundmicro as psm
 from typing import Self, Type, Tuple, Optional, Literal, Union, overload
 from .types import Pin, Range, PinPull, ValueMode
-from . import Element
+from . import Element, ElementName
 
 
 class EncoderOpts:
@@ -84,8 +84,12 @@ class EncoderOpts:
 class Encoder(Element):
 	@classmethod
 	@copy_doc(psm.Encoder.setup)
-	def setup(cls: Type[Self], name: str, pin_a: Pin, pull_a: PinPull, 
+	def setup(cls: Type[Self], name: Union[str, ElementName, psm.ElementName], pin_a: Pin, pull_a: PinPull, 
 			  pin_b: Pin, pull_b: PinPull) -> Self:
+		if isinstance(name, str):
+			name = psm.ElementName.regular(name)
+		elif isinstance(name, ElementName):
+			name = name._name
 		native_obj = psm.Encoder.setup(name, pin_a, pull_a, pin_b, pull_b)
 		return cls(native_obj)
 

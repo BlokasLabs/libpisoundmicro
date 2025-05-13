@@ -1,20 +1,28 @@
 from ._utils import copy_doc
-from . import Element
+from . import Element, ElementName
 from .swig import pypisoundmicro as psm
-from typing import Self, Type
+from typing import Self, Type, Union
 from .types import PinDirection, PinPull
 
 @copy_doc(psm.Gpio)
 class Gpio(Element):
 	@classmethod
 	@copy_doc(psm.Gpio.setupInput)
-	def setup_input(cls: Type[Self], name: str, pin: int, pull: PinPull) -> Self:
+	def setup_input(cls: Type[Self], name: Union[str, ElementName, psm.ElementName], pin: int, pull: PinPull) -> Self:
+		if isinstance(name, str):
+			name = psm.ElementName.regular(name)
+		elif isinstance(name, ElementName):
+			name = name._name
 		native_obj = psm.Gpio.setupInput(name, pin, pull)
 		return cls(native_obj)
 
 	@classmethod
 	@copy_doc(psm.Gpio.setupOutput)
-	def setup_output(cls: Type[Self], name: str, pin: int, high: int) -> Self:
+	def setup_output(cls: Type[Self], name: Union[str, ElementName, psm.ElementName], pin: int, high: int) -> Self:
+		if isinstance(name, str):
+			name = psm.ElementName.regular(name)
+		elif isinstance(name, ElementName):
+			name = name._name
 		native_obj = psm.Gpio.setupOutput(name, pin, high)
 		return cls(native_obj)
 

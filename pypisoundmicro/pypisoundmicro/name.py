@@ -25,6 +25,7 @@ class ElementName:
 		In Python, you can use f-strings for formatting element names:
 		
 		Examples:
+			```py3
 			# Basic usage
 			ElementName.regular("encoder_1")
 			
@@ -34,6 +35,7 @@ class ElementName:
 			
 			# With f-strings and formatting options
 			ElementName.regular(f"ctrl_{index:02d}")  # Produces "ctrl_05"
+			```
 		"""
 		result = cls.__new__(cls)
 		result._name = psm.ElementName.regular(name)

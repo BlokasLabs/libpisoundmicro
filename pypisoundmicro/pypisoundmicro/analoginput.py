@@ -1,8 +1,8 @@
 from ._utils import copy_doc
 from .swig import pypisoundmicro as psm
-from typing import Self, Type, Optional
+from typing import Self, Type, Optional, Union
 from .types import Pin, Range
-from . import Element
+from . import Element, ElementName
 
 class AnalogInputOpts:
 	"""
@@ -68,7 +68,11 @@ class AnalogInputOpts:
 class AnalogInput(Element):
 	@classmethod
 	@copy_doc(psm.AnalogInput.setup)
-	def setup(cls: Type[Self], name: str, pin: Pin) -> Self:
+	def setup(cls: Type[Self], name: Union[str, ElementName, psm.ElementName], pin: Pin) -> Self:
+		if isinstance(name, str):
+			name = psm.ElementName.regular(name)
+		elif isinstance(name, ElementName):
+			name = name._name
 		native_obj = psm.AnalogInput.setup(name, pin)
 		return cls(native_obj)
 

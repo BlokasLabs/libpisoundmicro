@@ -45,8 +45,9 @@ class ValueFd:
 		"""Close the file descriptor when the object is garbage collected."""
 		self.close()
 
+	@property
 	@copy_doc(psm.ValueFd.isValid)
-	def is_valid(self):
+	def is_valid(self) -> bool:
 		return self._fd_obj.isValid() if self._fd_obj else False
 
 	@copy_doc(psm.ValueFd.take)
@@ -63,19 +64,18 @@ class ValueFd:
 		return self._fd_obj.get() if self._fd_obj else -1
 
 	@copy_doc(psm.ValueFd.close)
-	def close(self):
+	def close(self) -> None:
 		if hasattr(self, '_fd_obj') and self._fd_obj is not None:
 			err = self._fd_obj.close()
 			if err != 0:
 				raise OSError(f"Failed to close file descriptor: {err}")
 			self._fd_obj = None
-		return 0
 
 	@copy_doc(psm.ValueFd.write)
-	def write(self, value):
+	def write(self, value) -> int:
 		return self._fd_obj.write(value) if self._fd_obj else -1
 
-	def read(self):
+	def read(self) -> int:
 		"""
 		Reads a decimal number from the fd and returns it as integer.
 
