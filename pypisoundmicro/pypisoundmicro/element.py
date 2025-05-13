@@ -119,24 +119,15 @@ class Element:
 
 	@classmethod
 	@copy_doc(psm.Element.setup)
-	def setup(cls, name: Union[str, ElementName], setup_obj: Union[int, 'Setup']) -> Optional[Self]:
-		"""Set up a new Element with the provided name and setup options.
-		
-		Args:
-			name: The name of the element to set up
-			setup_obj: Either a raw setup integer value or a Setup object
-			
-		Returns:
-			A newly created Element, or None if setup failed
-		"""
+	def setup(cls, name: Union[str, ElementName], setup: Union[int, 'Setup']) -> Optional[Self]:
 		if isinstance(name, str):
 			name = psm.ElementName.regular(name)
 		
 		# Handle both raw integers and Setup objects
-		if hasattr(setup_obj, 'to_int'):
-			setup_value = setup_obj.to_int()
+		if hasattr(setup, 'to_int'):
+			setup_value = setup.to_int()
 		else:
-			setup_value = setup_obj
+			setup_value = setup
 			
 		native_obj = psm.Element.setup(name, setup_value)
 		if native_obj.isValid():

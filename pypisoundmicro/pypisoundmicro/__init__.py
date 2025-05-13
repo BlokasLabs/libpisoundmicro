@@ -65,3 +65,24 @@ def cleanup() -> None:
 		signal.signal(signal.SIGTERM, signal_handler)  # Termination signal
 	"""
 	_cleanup()
+
+__all__ = [
+	'Element',
+	'ElementName',
+	'AnalogInput',
+	'Activity',
+	'Encoder',
+	'Gpio',
+	'ActivityType',
+	'ElementType',
+	'Pin',
+	'PinDirection',
+	'PinPull',
+	'Range',
+	'ValueMode',
+	'Setup',
+	'ValueFd',
+
+	'init',
+	'cleanup'
+]

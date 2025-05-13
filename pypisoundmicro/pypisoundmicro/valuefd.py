@@ -75,8 +75,13 @@ class ValueFd:
 	def write(self, value):
 		return self._fd_obj.write(value) if self._fd_obj else -1
 
-	@copy_doc(psm.ValueFd.read)
 	def read(self):
+		"""
+		Reads a decimal number from the fd and returns it as integer.
+
+		:raises OSError: If the file descriptor is invalid or if an error occurs during reading.
+		:return: The read value.
+		"""
 		if self._fd_obj is None:
 			return (-1, os.EBADF)
 
