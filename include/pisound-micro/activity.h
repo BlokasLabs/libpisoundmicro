@@ -34,7 +34,9 @@ namespace upisnd
 class UPISND_API Activity : public Element
 {
 public:
+#ifndef SWIG
 	using Element::Element;
+#endif
 
 	/// @brief Set up an activity element.
 	/// @see upisnd_setup_activity

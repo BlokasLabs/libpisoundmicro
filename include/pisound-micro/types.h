@@ -50,7 +50,7 @@ typedef uint32_t upisnd_setup_t;
 
 enum
 {
-	/// Maximum Element name length, the size includes the '`\0`' character.
+	/// Maximum Element name length, the size includes the '`\\0`' character.
 	UPISND_MAX_ELEMENT_NAME_LENGTH = 64,
 };
 

@@ -202,7 +202,7 @@ class CustomBuildPy(build_py):
 pisoundmicro_module = Extension(
 	'pypisoundmicro.swig._pypisoundmicro',
 	sources = [ 'pisoundmicro.i' ],
-	swig_opts = [ '-c++', '-py3', '-includeall', '-I../include', '-I/usr/include', '-doxygen', '-outdir', 'pypisoundmicro/swig' ],
+	swig_opts = [ '-c++', '-includeall', '-I../include', '-I/usr/include', '-doxygen', '-outdir', 'pypisoundmicro/swig' ],
 	include_dirs = [ '../include' ],
 	library_dirs = lib_paths,
 	libraries = [ 'pisoundmicro' ]

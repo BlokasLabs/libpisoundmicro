@@ -26,7 +26,7 @@
 }
 
 %typemap(argout) upisnd_setup_t* {
-	$result = SWIG_Python_AppendOutput($result, PyLong_FromLong(*$1));
+	$result = SWIG_AppendOutput($result, PyLong_FromLong(*$1));
 }
 
 // Typemaps for handling enum types

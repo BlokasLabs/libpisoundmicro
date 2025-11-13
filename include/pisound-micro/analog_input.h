@@ -34,7 +34,9 @@ namespace upisnd
 class UPISND_API AnalogInput : public Element
 {
 public:
+#ifndef SWIG
 	using Element::Element;
+#endif
 
 	/// @brief Set up an analog input element.
 	static AnalogInput setup(ElementName name, upisnd_pin_t pin);

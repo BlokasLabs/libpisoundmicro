@@ -34,7 +34,9 @@ namespace upisnd
 class UPISND_API Encoder : public Element
 {
 public:
+#ifndef SWIG
 	using Element::Element;
+#endif
 
 	/// @brief Set up an encoder element.
 	/// @see ::upisnd_setup_encoder

@@ -34,7 +34,9 @@ namespace upisnd
 class UPISND_API Gpio : public Element
 {
 public:
+#ifndef SWIG
 	using Element::Element;
+#endif
 
 	/// @brief Set up a GPIO element as input.
 	/// @see upisnd_setup_gpio_input
