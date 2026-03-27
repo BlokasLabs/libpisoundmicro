@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from setuptools import find_packages, setup, Extension
+from setuptools.command.build import build
 from setuptools.command.build_py import build_py
 
 import sys
@@ -199,6 +200,14 @@ class CustomBuildPy(build_py):
 		super().run()
 		preprocess_python_files(self)
 
+class CustomBuild(build):
+	sub_commands = [
+		('build_ext', build.has_ext_modules),
+		('build_py', build.has_pure_modules),
+		('build_clib', build.has_c_libraries),
+		('build_scripts', build.has_scripts),
+	]
+
 pisoundmicro_module = Extension(
 	'pypisoundmicro.swig._pypisoundmicro',
 	sources = [ 'pisoundmicro.i' ],
@@ -225,8 +234,8 @@ setup(
 	url='https://blokas.io/',
 	license='LGPLv3',
 	ext_modules=[pisoundmicro_module],
-	py_modules=['pypisoundmicro'],
 	cmdclass={
+		'build': CustomBuild,
 		'build_py': CustomBuildPy,
 	},
 )
