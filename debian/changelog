@@ -1,3 +1,9 @@
+libpisoundmicro (1.0.1-3~bookworm1) UNRELEASED; urgency=low
+
+  * Backported for bookworm.
+
+ -- Giedrius Trainavičius <giedrius@blokas.io>  Mon, 30 Mar 2026 12:04:03 +0300
+
 libpisoundmicro (1.0.1-3) UNRELEASED; urgency=low
 
   * Fixed swig/pypisoundmicro.py missing.
